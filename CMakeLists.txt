@@ -1,37 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
-project(hello_world VERSION 1.0 LANGUAGES CXX)
 
-# C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+project(main_project)
 
-# Default build type
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
-endif()
+add_executable(main main.cpp math_operations.cpp)
 
-# Place binaries in a predictable location
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# GoogleTest
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-# Create executable from main.cpp
-add_executable(hello main.cpp)
-target_include_directories(hello PRIVATE ${CMAKE_SOURCE_DIR})
-target_compile_features(hello PRIVATE cxx_std_17)
+enable_testing()
 
-# Useful compiler warnings
-if(MSVC)
-  target_compile_options(hello PRIVATE /W4 /permissive-)
-else()
-  target_compile_options(hello PRIVATE -Wall -Wextra -Wpedantic)
-endif()
+add_executable(unit_tests tests/unit_tests.cpp math_operations.cpp)
+target_link_libraries(unit_tests gtest_main)
 
-# Installation
-install(TARGETS hello RUNTIME DESTINATION bin)
-
-# Optional basic test
-option(BUILD_TESTS "Enable building basic tests" ON)
-if(BUILD_TESTS)
-  enable_testing()
-  add_test(NAME HelloRuns COMMAND hello)
-endif()
+include(GoogleTest)
+gtest_discover_tests(unit_tests)
