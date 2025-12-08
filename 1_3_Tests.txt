@@ -1,0 +1,93 @@
+create math_operations.h and math_operations.cpp 
+In .h file create int add(int a, int b); function
+Craete new folder tests with  unit_tests.cpp
+also update cmake file with  adding Google Test
+
+
+
+#ifndef MATH_OPERATIONS_H
+#define MATH_OPERATIONS_H
+
+int add(int a, int b);
+
+#endif // MATH_OPERATIONS_H
+
+#include "math_operations.h"
+
+int add(int a, int b) {
+    return a + b;
+}
+
+#include <gtest/gtest.h>
+#include "../math_operations.h"
+
+TEST(MathOperationsTest, AddPositiveNumbers) {
+    EXPECT_EQ(add(2, 3), 5);
+    EXPECT_EQ(add(10, 5), 15);
+}
+
+TEST(MathOperationsTest, AddNegativeNumbers) {
+    EXPECT_EQ(add(-2, -3), -5);
+    EXPECT_EQ(add(-10, 5), -5);
+}
+
+TEST(MathOperationsTest, AddZero) {
+    EXPECT_EQ(add(0, 0), 0);
+    EXPECT_EQ(add(5, 0), 5);
+    EXPECT_EQ(add(0, 10), 10);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
+
+
+
+cmake_minimum_required(VERSION 3.10)
+
+project(HelloWorld)
+
+set(CMAKE_CXX_STANDARD 11)
+
+# Enable testing
+enable_testing()
+
+# Main executable
+add_executable(${PROJECT_NAME} main.cpp math_operations.cpp)
+
+# Google Test
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9fd7188e49b65d86e61e2f0.zip
+)
+FetchContent_MakeAvailable(googletest)
+
+# Unit tests
+add_executable(unit_tests tests/unit_tests.cpp math_operations.cpp)
+target_link_libraries(unit_tests GTest::gtest_main)
+add_test(NAME unit_tests COMMAND unit_tests)
+
+
+
+
+
+Reading CMakeLists.txt to understand the current setup.
+Creating the required files and updating the CMakeLists.txt.
+Created Files:
+math_operations.h - Declaration of the add function
+math_operations.cpp - Implementation of the add function
+tests/unit_tests.cpp - Unit tests with Google Test for the add function, including:
+Positive numbers
+Negative numbers
+Zero cases
+Updated Files:
+CMakeLists.txt:
+Added enable_testing()
+Set up Google Test via FetchContent
+Built the main executable with math_operations.cpp
+Added a unit_tests executable with tests
+Registered tests with CTest
+Build and test:
+The unit tests cover basic cases for the add function.
