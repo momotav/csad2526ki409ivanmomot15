@@ -1,0 +1,20 @@
+Added CMakeLists.txt with:
+cmake_minimum_required(VERSION 3.10)
+
+project(HelloWorld)
+
+set(CMAKE_CXX_STANDARD 11)
+
+add_executable(${PROJECT_NAME} main.cpp)
+
+
+
+CMake 3.10+ requirement
+Project name "HelloWorld"
+C++11
+Executable built from main.cpp
+Build:
+mkdir build && cd build
+cmake ..
+cmake --build . (or make on Unix)
+Or configure for your IDE.
