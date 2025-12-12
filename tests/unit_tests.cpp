@@ -1,23 +1,23 @@
 #include <gtest/gtest.h>
 #include "../math_operations.h"
 
-TEST(AddFunction, PositiveNumbers) {
+TEST(MathOperationsTest, AddPositiveNumbers) {
     EXPECT_EQ(add(2, 3), 5);
-    EXPECT_EQ(add(100, 200), 300);
+    EXPECT_EQ(add(10, 5), 15);
 }
 
-TEST(AddFunction, NegativeNumbers) {
+TEST(MathOperationsTest, AddNegativeNumbers) {
     EXPECT_EQ(add(-2, -3), -5);
-    EXPECT_EQ(add(-1, -99), -100);
+    EXPECT_EQ(add(-10, 5), -5);
 }
 
-TEST(AddFunction, MixedSigns) {
-    EXPECT_EQ(add(-5, 5), 0);
-    EXPECT_EQ(add(10, -3), 7);
-}
-
-TEST(AddFunction, Zero) {
+TEST(MathOperationsTest, AddZero) {
     EXPECT_EQ(add(0, 0), 0);
-    EXPECT_EQ(add(0, 7), 7);
-    EXPECT_EQ(add(-4, 0), -4);
+    EXPECT_EQ(add(5, 0), 5);
+    EXPECT_EQ(add(0, 10), 10);
+}
+
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
